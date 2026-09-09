@@ -1,0 +1,31 @@
+{
+  "name": "idac",
+  "version": "0.1.0",
+  "private": true,
+  "description": "IDAC - 디지털자산 활용성·지속가능성 평가 리포트 플랫폼",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "fetch:fonts": "node scripts/fetch-fonts.mjs",
+    "report:generate": "tsx scripts/generate-report.ts"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "next": "^15.5.4",
+    "pdfkit": "^0.17.1",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "@types/pdfkit": "^0.17.3",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
+    "tsx": "^4.23.13",
+    "typescript": "^5.9.2"
+  }
+}
