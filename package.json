@@ -10,7 +10,8 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "fetch:fonts": "node scripts/fetch-fonts.mjs",
-    "report:generate": "tsx scripts/generate-report.ts"
+    "report:generate": "tsx scripts/generate-report.ts",
+    "page:build": "node scripts/build-page.mjs"
   },
   "dependencies": {
     "exceljs": "^4.4.0",

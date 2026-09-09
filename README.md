@@ -38,6 +38,15 @@ npm run report:generate -- --period 2026-09 --mode fixture
 npm run report:generate -- --period 2026-09 --mode live     # 실 API 사용
 ```
 
+리포트를 단일 HTML 페이지(공유·발행용)로 뽑으려면:
+
+```bash
+npm run page:build -- 2026-09 out/idac-2026-09.html
+```
+
+`scripts/page-template.html` 이 레이아웃, `scripts/build-page.mjs` 가 리포트 JSON을
+표로 채워 넣는다. 표 내용을 손으로 옮기지 않으므로 표기 오류가 생기지 않는다.
+
 ## 환경변수
 
 | 변수 | 설명 |
