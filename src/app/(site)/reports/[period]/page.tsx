@@ -351,7 +351,9 @@ export default async function ReportPage({ params }: { params: Promise<{ period:
       <h2>7. 데이터 출처</h2>
       <ul className="footnote">
         {report.sources.map((source) => (
-          <li key={source}>{source}</li>
+          <li key={source.id}>
+            <strong>{source.label}</strong> — {source.detail}
+          </li>
         ))}
       </ul>
     </>

@@ -210,7 +210,9 @@ function buildMethodologySheet(workbook: ExcelJS.Workbook, report: Report) {
 
   sheet.addRow({});
   sheet.addRow({ key: "데이터 출처", value: "" });
-  for (const source of report.sources) sheet.addRow({ key: "", value: source });
+  for (const source of report.sources) {
+    sheet.addRow({ key: source.label, value: source.detail });
+  }
 
   if (report.notices.length > 0) {
     sheet.addRow({});

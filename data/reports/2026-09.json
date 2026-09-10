@@ -2,7 +2,7 @@
   "period": "2026-09",
   "title": "2026년 9월 디지털자산 활용성·지속가능성 평가 리포트",
   "asOf": "2026-09-09T00:00:00.000Z",
-  "generatedAt": "2026-09-10T01:26:56.732Z",
+  "generatedAt": "2026-09-10T02:19:35.511Z",
   "dataSource": "fixture",
   "usdKrw": 1342,
   "universe": {
@@ -44,11 +44,14 @@
         "medianAmount": 1,
         "medianKrw": 355.63,
         "ratioPct": 0.0356,
-        "tradingFeePct": 0.138
+        "tradingFeePct": 0.138,
+        "grade": "C"
       },
       "volatility": {
         "changeRate1yPct": -12.6,
         "annualizedVolatilityPct": 41.8,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -33.7,
         "grade": "A"
       },
@@ -140,11 +143,14 @@
         "medianAmount": 0.4,
         "medianKrw": 751.52,
         "ratioPct": 0.0752,
-        "tradingFeePct": 0.138
+        "tradingFeePct": 0.138,
+        "grade": "D"
       },
       "volatility": {
         "changeRate1yPct": -50.9,
         "annualizedVolatilityPct": 78.4,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -61.2,
         "grade": "B"
       },
@@ -236,11 +242,14 @@
         "medianAmount": 1,
         "medianKrw": 1341.8658,
         "ratioPct": 0.1342,
-        "tradingFeePct": 0.138
+        "tradingFeePct": 0.138,
+        "grade": "D"
       },
       "volatility": {
         "changeRate1yPct": -0.01,
         "annualizedVolatilityPct": 0.6,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -0.2,
         "grade": "A"
       },
@@ -327,11 +336,14 @@
         "medianAmount": 1,
         "medianKrw": 1342.2684,
         "ratioPct": 0.1342,
-        "tradingFeePct": 0.138
+        "tradingFeePct": 0.138,
+        "grade": "D"
       },
       "volatility": {
         "changeRate1yPct": 0.02,
         "annualizedVolatilityPct": 0.9,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -0.4,
         "grade": "A"
       },
@@ -418,11 +430,14 @@
         "medianAmount": 0.01,
         "medianKrw": 33194.5042,
         "ratioPct": 3.3195,
-        "tradingFeePct": 0.138
+        "tradingFeePct": 0.138,
+        "grade": "E"
       },
       "volatility": {
         "changeRate1yPct": -42.5,
         "annualizedVolatilityPct": 61.3,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -52.1,
         "grade": "A"
       },
@@ -514,11 +529,14 @@
         "medianAmount": 0.0009,
         "medianKrw": 94615.4286,
         "ratioPct": 9.4615,
-        "tradingFeePct": 0.138
+        "tradingFeePct": 0.138,
+        "grade": "E"
       },
       "volatility": {
         "changeRate1yPct": -30.1,
         "annualizedVolatilityPct": 45.2,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -38.4,
         "grade": "A"
       },
@@ -610,11 +628,14 @@
         "medianAmount": 0.01,
         "medianKrw": 2.4827000000000004,
         "ratioPct": 0.0002,
-        "tradingFeePct": 0.138
+        "tradingFeePct": 0.138,
+        "grade": "A"
       },
       "volatility": {
         "changeRate1yPct": -48.6,
         "annualizedVolatilityPct": 74.5,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -60.3,
         "grade": "B"
       },
@@ -706,11 +727,14 @@
         "medianAmount": 0.1,
         "medianKrw": 315.37000000000006,
         "ratioPct": 0.0315,
-        "tradingFeePct": 0.138
+        "tradingFeePct": 0.138,
+        "grade": "C"
       },
       "volatility": {
         "changeRate1yPct": -42.1,
         "annualizedVolatilityPct": 77.6,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -58.9,
         "grade": "B"
       },
@@ -802,11 +826,14 @@
         "medianAmount": 0.001,
         "medianKrw": 476.41,
         "ratioPct": 0.0476,
-        "tradingFeePct": 0.138
+        "tradingFeePct": 0.138,
+        "grade": "C"
       },
       "volatility": {
         "changeRate1yPct": -37.5,
         "annualizedVolatilityPct": 63.9,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -49.8,
         "grade": "A"
       },
@@ -898,11 +925,14 @@
         "medianAmount": 0.01,
         "medianKrw": 1379.576,
         "ratioPct": 0.138,
-        "tradingFeePct": 0.138
+        "tradingFeePct": 0.138,
+        "grade": "E"
       },
       "volatility": {
         "changeRate1yPct": -52.2,
         "annualizedVolatilityPct": 82.6,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -64.8,
         "grade": "C"
       },
@@ -994,11 +1024,14 @@
         "medianAmount": 1,
         "medianKrw": 171.776,
         "ratioPct": 0.0172,
-        "tradingFeePct": 0.1225
+        "tradingFeePct": 0.1225,
+        "grade": "B"
       },
       "volatility": {
         "changeRate1yPct": -47.7,
         "annualizedVolatilityPct": 79.8,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -62.4,
         "grade": "B"
       },
@@ -1090,11 +1123,14 @@
         "medianAmount": 1,
         "medianKrw": 295.24,
         "ratioPct": 0.0295,
-        "tradingFeePct": 0.138
+        "tradingFeePct": 0.138,
+        "grade": "B"
       },
       "volatility": {
         "changeRate1yPct": -73.2,
         "annualizedVolatilityPct": 88.7,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -76.3,
         "grade": "D"
       },
@@ -1186,11 +1222,14 @@
         "medianAmount": 0.01,
         "medianKrw": 838.75,
         "ratioPct": 0.0839,
-        "tradingFeePct": 0.138
+        "tradingFeePct": 0.138,
+        "grade": "D"
       },
       "volatility": {
         "changeRate1yPct": -41.2,
         "annualizedVolatilityPct": 66.4,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -52.7,
         "grade": "B"
       },
@@ -1282,11 +1321,14 @@
         "medianAmount": 1,
         "medianKrw": 6508.7,
         "ratioPct": 0.6509,
-        "tradingFeePct": 0.1225
+        "tradingFeePct": 0.1225,
+        "grade": "E"
       },
       "volatility": {
         "changeRate1yPct": -46.8,
         "annualizedVolatilityPct": 86.1,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -64.5,
         "grade": "C"
       },
@@ -1378,11 +1420,14 @@
         "medianAmount": 0.5,
         "medianKrw": 7280.349999999999,
         "ratioPct": 0.728,
-        "tradingFeePct": 0.138
+        "tradingFeePct": 0.138,
+        "grade": "E"
       },
       "volatility": {
         "changeRate1yPct": -55.4,
         "annualizedVolatilityPct": 84.2,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -66.1,
         "grade": "C"
       },
@@ -1474,11 +1519,14 @@
         "medianAmount": 0.01,
         "medianKrw": 39.589,
         "ratioPct": 0.004,
-        "tradingFeePct": 0.138
+        "tradingFeePct": 0.138,
+        "grade": "A"
       },
       "volatility": {
         "changeRate1yPct": -46.2,
         "annualizedVolatilityPct": 80.4,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -62.9,
         "grade": "C"
       },
@@ -1570,11 +1618,14 @@
         "medianAmount": 0.5,
         "medianKrw": 97.29499999999999,
         "ratioPct": 0.0097,
-        "tradingFeePct": 0.138
+        "tradingFeePct": 0.138,
+        "grade": "A"
       },
       "volatility": {
         "changeRate1yPct": -55.1,
         "annualizedVolatilityPct": 85.3,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -65.7,
         "grade": "C"
       },
@@ -1666,11 +1717,14 @@
         "medianAmount": 0.01,
         "medianKrw": 108.702,
         "ratioPct": 0.0109,
-        "tradingFeePct": 0.138
+        "tradingFeePct": 0.138,
+        "grade": "A"
       },
       "volatility": {
         "changeRate1yPct": -66.8,
         "annualizedVolatilityPct": 91.5,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -73.2,
         "grade": "D"
       },
@@ -1762,11 +1816,14 @@
         "medianAmount": 0.01,
         "medianKrw": 166.408,
         "ratioPct": 0.0166,
-        "tradingFeePct": 0.138
+        "tradingFeePct": 0.138,
+        "grade": "B"
       },
       "volatility": {
         "changeRate1yPct": -44.6,
         "annualizedVolatilityPct": 72.3,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -57.8,
         "grade": "B"
       },
@@ -1858,11 +1915,14 @@
         "medianAmount": 5,
         "medianKrw": 657.5799999999999,
         "ratioPct": 0.0658,
-        "tradingFeePct": 0.138
+        "tradingFeePct": 0.138,
+        "grade": "C"
       },
       "volatility": {
         "changeRate1yPct": -59.3,
         "annualizedVolatilityPct": 94.1,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -70.5,
         "grade": "E"
       },
@@ -1949,11 +2009,14 @@
         "medianAmount": 0.1,
         "medianKrw": 17.1776,
         "ratioPct": 0.0017,
-        "tradingFeePct": 0.1225
+        "tradingFeePct": 0.1225,
+        "grade": "A"
       },
       "volatility": {
         "changeRate1yPct": -50.7,
         "annualizedVolatilityPct": 83.1,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -64.1,
         "grade": "C"
       },
@@ -2045,11 +2108,14 @@
         "medianAmount": 0.05,
         "medianKrw": 95.282,
         "ratioPct": 0.0095,
-        "tradingFeePct": 0.1225
+        "tradingFeePct": 0.1225,
+        "grade": "A"
       },
       "volatility": {
         "changeRate1yPct": -58.2,
         "annualizedVolatilityPct": 90.7,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -69.4,
         "grade": "D"
       },
@@ -2141,11 +2207,14 @@
         "medianAmount": 0.05,
         "medianKrw": 171.10500000000002,
         "ratioPct": 0.0171,
-        "tradingFeePct": 0.1225
+        "tradingFeePct": 0.1225,
+        "grade": "B"
       },
       "volatility": {
         "changeRate1yPct": -61.9,
         "annualizedVolatilityPct": 93.2,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -71.6,
         "grade": "E"
       },
@@ -2237,11 +2306,14 @@
         "medianAmount": 0.1,
         "medianKrw": 177.144,
         "ratioPct": 0.0177,
-        "tradingFeePct": 0.1225
+        "tradingFeePct": 0.1225,
+        "grade": "B"
       },
       "volatility": {
         "changeRate1yPct": -64.5,
         "annualizedVolatilityPct": 96.3,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -72.8,
         "grade": "E"
       },
@@ -2333,11 +2405,14 @@
         "medianAmount": 0.4,
         "medianKrw": 195.93200000000002,
         "ratioPct": 0.0196,
-        "tradingFeePct": 0.1225
+        "tradingFeePct": 0.1225,
+        "grade": "B"
       },
       "volatility": {
         "changeRate1yPct": -62.3,
         "annualizedVolatilityPct": 95.1,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -72.4,
         "grade": "E"
       },
@@ -2424,11 +2499,14 @@
         "medianAmount": 1,
         "medianKrw": 315.37,
         "ratioPct": 0.0315,
-        "tradingFeePct": 0.1225
+        "tradingFeePct": 0.1225,
+        "grade": "C"
       },
       "volatility": {
         "changeRate1yPct": -57.4,
         "annualizedVolatilityPct": 89.6,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -68.2,
         "grade": "D"
       },
@@ -2519,11 +2597,14 @@
         "medianAmount": 1,
         "medianKrw": 516.67,
         "ratioPct": 0.0517,
-        "tradingFeePct": 0.1225
+        "tradingFeePct": 0.1225,
+        "grade": "C"
       },
       "volatility": {
         "changeRate1yPct": -59.8,
         "annualizedVolatilityPct": 92.5,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -70.3,
         "grade": "D"
       },
@@ -2609,11 +2690,14 @@
         "medianAmount": 5,
         "medianKrw": 972.9499999999998,
         "ratioPct": 0.0973,
-        "tradingFeePct": 0.1225
+        "tradingFeePct": 0.1225,
+        "grade": "D"
       },
       "volatility": {
         "changeRate1yPct": -63.7,
         "annualizedVolatilityPct": 97.4,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -74.6,
         "grade": "E"
       },
@@ -2699,11 +2783,14 @@
         "medianAmount": 3,
         "medianKrw": 1268.19,
         "ratioPct": 0.1268,
-        "tradingFeePct": 0.0967
+        "tradingFeePct": 0.0967,
+        "grade": "D"
       },
       "volatility": {
         "changeRate1yPct": -60.5,
         "annualizedVolatilityPct": 94.8,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -71.1,
         "grade": "E"
       },
@@ -2795,11 +2882,14 @@
         "medianAmount": 0.06,
         "medianKrw": 11916.96,
         "ratioPct": 1.1917,
-        "tradingFeePct": 0.1225
+        "tradingFeePct": 0.1225,
+        "grade": "E"
       },
       "volatility": {
         "changeRate1yPct": -49.3,
         "annualizedVolatilityPct": 88.4,
+        "annualized90dPct": null,
+        "annualized180dPct": null,
         "maxDrawdownPct": -66.9,
         "grade": "D"
       },
@@ -2859,11 +2949,41 @@
     }
   ],
   "sources": [
-    "코인마켓캡 공개 시세 자료 (교차 확인)",
-    "국내 5대 거래소 수수료 안내 페이지",
-    "각 프로젝트 공식 홈페이지·백서·SNS 채널"
+    {
+      "id": "cmc-snapshot",
+      "label": "코인마켓캡 공개 시세 자료",
+      "detail": "오프라인 스냅샷으로 교차 확인한 시세·시가총액·유통량 기준값"
+    },
+    {
+      "id": "kr-fee-table",
+      "label": "국내 5대 거래소 수수료 안내",
+      "detail": "업비트·빗썸·코인원·코빗·고팍스 출금 수수료 수동 관리 테이블 (2026-09-01 기준)"
+    },
+    {
+      "id": "project-docs",
+      "label": "각 프로젝트 공식 자료",
+      "detail": "재단 홈페이지·백서·SNS 채널 — C/D/E 항목 정성 데이터"
+    }
   ],
+  "meta": {
+    "durationMs": 5,
+    "globalExchanges": [
+      "binance",
+      "coinbase",
+      "okx",
+      "bybit",
+      "kraken"
+    ],
+    "krMarketSizes": {
+      "upbit": 35,
+      "bithumb": 47,
+      "coinone": 35,
+      "korbit": 29,
+      "gopax": 18
+    }
+  },
   "notices": [
+    "fixture 모드에는 일봉 시계열이 없어 GTF 90D·180D 연환산 변동성은 산출되지 않습니다. live 모드에서만 표기됩니다.",
     "CertiK Skynet 보안 점수와 쟁글(Xangle) 공시 현황은 fixture 모드에서 조회되지 않습니다. live 모드에서 각 API 키를 설정해야 반영됩니다.",
     "이 리포트는 오프라인 스냅샷(fixture) 으로 생성되었습니다. 시세·시가총액·변동성 수치는 조사 기반 기준값이며, 발행용 리포트는 반드시 live 모드로 재생성해야 합니다.",
     "국내 거래소 출금 수수료는 2026-09-01 기준 수동 관리 테이블 값입니다.",

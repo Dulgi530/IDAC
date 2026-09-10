@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
   color-scheme: light;
   --bg: #f5f7fa;
@@ -209,4 +211,12 @@ td.narrative { min-width: 320px; line-height: 1.6; }
   .site-header nav, .btn-row { display: none; }
   body { background: #fff; }
   .table-scroll { overflow: visible; border: none; }
+}
+
+/*
+ * 리포트 단일 페이지(`/`)는 Tailwind 유틸리티로 짜인 다크 화면이다.
+ * 오버스크롤 영역까지 어두운 배경이 이어지도록 body 배경을 맞춘다.
+ */
+body:has(#report-root) {
+  background: #0a0a0a;
 }

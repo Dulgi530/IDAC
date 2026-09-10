@@ -55,6 +55,8 @@ export interface FeeInfo {
   ratioPct: number;
   /** 거래소 매매 수수료율(%) 대표값. */
   tradingFeePct: number;
+  /** 선정 30종 내 상대평가 등급. 부담률이 낮을수록 A. */
+  grade: Grade;
 }
 
 /** B.1 가격변동안정성. */
@@ -63,6 +65,15 @@ export interface VolatilityInfo {
   changeRate1yPct: number;
   /** 일간 수익률 표준편차를 연율화한 변동성(%). 등급 산정의 주 지표. */
   annualizedVolatilityPct: number;
+  /**
+   * GTF(Global Trading Framework) 방식의 구간 변동성(%).
+   * 일별 로그수익률 LN(Pₜ / Pₜ₋₁) 에 표본 표준편차(STDEV.S)를 적용하고
+   * 24/7 거래되는 디지털자산 기준 연환산 계수 √365 를 곱한 값이다.
+   * 일봉 표본이 부족하면 null (fixture 모드는 시계열이 없어 항상 null).
+   */
+  annualized90dPct: number | null;
+  /** 최근 180거래일 구간에 같은 방식을 적용한 연환산 변동성(%). */
+  annualized180dPct: number | null;
   /** 1년 내 고점 대비 최대 낙폭(%). */
   maxDrawdownPct: number;
   /** B.1.2 변동폭이 적은 순서대로 부여한 상대 등급. */
@@ -181,6 +192,26 @@ export interface CoinEntry {
 /** 데이터 출처 구분. */
 export type DataSourceMode = "live" | "fixture";
 
+/** 리포트 하단·상단에 카드로 노출하는 데이터 출처 1건. */
+export interface ReportSource {
+  /** 안정적인 식별자 (React key). */
+  id: string;
+  /** 출처 이름. */
+  label: string;
+  /** 어떤 항목을 어떤 방식으로 가져왔는지에 대한 한 줄 설명. */
+  detail: string;
+}
+
+/** 집계 실행에 대한 부가 정보. */
+export interface ReportMeta {
+  /** 집계에 걸린 시간(ms). */
+  durationMs: number;
+  /** 후보군 판정에 사용한 해외 거래소. */
+  globalExchanges: GlobalExchange[];
+  /** 국내 거래소별 KRW 마켓 상장 종목 수. 조회하지 못하면 null. */
+  krMarketSizes: Partial<Record<DomesticExchange, number>> | null;
+}
+
 /** 월간 리포트 1건. */
 export interface Report {
   /** 리포트 기간 식별자. 예: "2026-09". */
@@ -198,7 +229,9 @@ export interface Report {
   universe: { stageA: number; stageB: number };
   entries: CoinEntry[];
   /** 산출 근거로 사용한 데이터 출처 목록. */
-  sources: string[];
+  sources: ReportSource[];
+  /** 집계 과정 메타데이터 (리포트 화면 상단 요약에 사용). */
+  meta: ReportMeta;
   /** 데이터 신뢰도에 대한 경고 (fixture 모드 등). */
   notices: string[];
 }

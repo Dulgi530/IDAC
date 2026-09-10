@@ -296,7 +296,7 @@ function drawMethodology(doc: Doc, report: Report) {
       "종합점수 = 활용성 40% + 지속성 60%",
       "등급(A~E) = 선정 30종 내 상대평가 5분위. 상위 20%가 A등급이다.",
     ]],
-    ["데이터 출처", report.sources],
+    ["데이터 출처", report.sources.map((source) => `${source.label} — ${source.detail}`)],
   ];
 
   for (const [title, lines] of blocks) {

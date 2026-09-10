@@ -1,11 +1,14 @@
 import {
   DOMESTIC_EXCHANGES,
+  GLOBAL_EXCHANGES,
   type CoinEntry,
   type DataSourceMode,
   type DomesticExchange,
   type GlobalExchange,
   type ListingMap,
   type Report,
+  type ReportMeta,
+  type ReportSource,
 } from "./types";
 import { gradeByRank, sortEntries, stabilityScore, sustainabilityScore, usabilityScore } from "./grading";
 import { buildSummary } from "./narrative";
@@ -50,6 +53,10 @@ interface Candidate {
   /** C/D/E 정성 데이터. A단계 후보군에는 프로필 없는 종목도 포함된다. */
   profile: CoinProfile | null;
   market: MarketSnapshotRow;
+  /** GTF 90거래일 연환산 변동성(%). 시계열이 없으면 null. */
+  vol90dPct: number | null;
+  /** GTF 180거래일 연환산 변동성(%). 시계열이 없으면 null. */
+  vol180dPct: number | null;
   priceKrw: number;
   marketCapKrw: number;
   listings: ListingMap;
@@ -63,15 +70,16 @@ interface Candidate {
 
 export async function generateReport(options: GenerateOptions): Promise<Report> {
   const { period, mode } = options;
+  const startedAt = Date.now();
   const notices: string[] = [];
-  const sources: string[] = [];
+  const sources: ReportSource[] = [];
 
   const collected =
     mode === "live"
       ? await collectLive(notices, sources)
       : collectFixture(notices, sources);
 
-  const { candidates, usdKrw, asOf } = collected;
+  const { candidates, usdKrw, asOf, krMarketSizes } = collected;
 
   // ── A 단계 ────────────────────────────────────────────────────────────
   // 1.2 수수료 / 2.1 변동성 / 2.2 규모를 기준으로 후보군을 좁힌다.
@@ -128,6 +136,11 @@ export async function generateReport(options: GenerateOptions): Promise<Report> 
     stageB.map((c) => communityActivityIndex(c.profile)),
     true,
   );
+  // 1.2 이체 수수료도 같은 5분위 상대평가로 등급화한다. 부담률이 낮을수록 A.
+  const feeGrades = gradeByRank(
+    stageB.map((c) => (c.medianFeeAmount * c.priceKrw) / STANDARD_TRANSFER_KRW),
+    false,
+  );
 
   // ── 코인별 항목 조립 (B ~ F) ──────────────────────────────────────────
   const entries: CoinEntry[] = stageB.map((c, i) => {
@@ -173,10 +186,13 @@ export async function generateReport(options: GenerateOptions): Promise<Report> 
         medianKrw: feeKrw,
         ratioPct: round4(feeRatioPct),
         tradingFeePct: averageTradingFee(c.listings),
+        grade: feeGrades[i],
       },
       volatility: {
         changeRate1yPct: c.market.changeRate1yPct,
         annualizedVolatilityPct: c.market.annualizedVolatilityPct,
+        annualized90dPct: c.vol90dPct,
+        annualized180dPct: c.vol180dPct,
         maxDrawdownPct: c.market.maxDrawdownPct,
         grade: volatilityGrades[i],
       },
@@ -231,16 +247,33 @@ export async function generateReport(options: GenerateOptions): Promise<Report> 
     universe: { stageA: stageA.length, stageB: stageB.length },
     entries: ranked,
     sources,
+    meta: {
+      durationMs: Date.now() - startedAt,
+      globalExchanges: [...GLOBAL_EXCHANGES],
+      krMarketSizes,
+    } satisfies ReportMeta,
     notices,
   };
 }
 
 /** live 모드: 실제 외부 API 를 호출해 데이터를 모은다. */
-async function collectLive(notices: string[], sources: string[]) {
+async function collectLive(notices: string[], sources: ReportSource[]) {
   sources.push(
-    "코인마켓캡 Pro API (listings/latest, ohlcv/historical)",
-    "업비트·빗썸·코인원·코빗·고팍스 공개 API",
-    "바이낸스·코인베이스·OKX·바이비트·크라켄 공개 API",
+    {
+      id: "cmc",
+      label: "코인마켓캡 Pro API",
+      detail: "시가총액 상위 100위 시세·유통량 + 1년 일봉 OHLCV (listings/latest, ohlcv/historical)",
+    },
+    {
+      id: "kr-exchanges",
+      label: "국내 5대 거래소 공개 API",
+      detail: "업비트·빗썸·코인원·코빗·고팍스 KRW 마켓 상장 여부 및 온체인 출금 수수료",
+    },
+    {
+      id: "global-exchanges",
+      label: "해외 5대 거래소 공개 API",
+      detail: "바이낸스·코인베이스·OKX·바이비트·크라켄 활성 거래쌍 — A단계 후보군 판정",
+    },
   );
 
   const [listings, usdKrw, domestic, global] = await Promise.all([
@@ -258,7 +291,11 @@ async function collectLive(notices: string[], sources: string[]) {
 
   let skynet = new Map<string, { securityScore: number }>();
   if (isSkynetConfigured()) {
-    sources.push("CertiK Skynet Security Score API");
+    sources.push({
+      id: "certik",
+      label: "CertiK Skynet",
+      detail: "프로젝트 보안 점수(Security Score) — 재단 운영 지속성 보조 지표",
+    });
     skynet = await fetchSkynetScores(symbols).catch(() => new Map());
   } else {
     notices.push("SKYNET_API_KEY 가 없어 CertiK Skynet 보안 점수는 리포트에서 제외되었습니다.");
@@ -266,7 +303,11 @@ async function collectLive(notices: string[], sources: string[]) {
 
   let xangle = new Map<string, XangleProfile>();
   if (isXangleConfigured()) {
-    sources.push("쟁글(Xangle) 프로젝트 공시 API");
+    sources.push({
+      id: "xangle",
+      label: "쟁글(Xangle) 공시",
+      detail: "재단 공시 건수와 최근 공시 시점 — 2.3 재단 활동 지속성 근거",
+    });
     xangle = await fetchXangleProfiles(symbols).catch(() => new Map());
   } else {
     notices.push("XANGLE_API_KEY 가 없어 쟁글 공시 현황은 리포트에서 제외되었습니다.");
@@ -278,7 +319,8 @@ async function collectLive(notices: string[], sources: string[]) {
 
     // 1년 변동률·변동성은 일봉 종가로 직접 계산한다.
     const closes = await fetchDailyCloses(listing.cmcId).catch(() => []);
-    const stats = closes.length >= 30 ? computeVolatility(closes.map((c) => c.close)) : null;
+    const series = closes.map((c) => c.close);
+    const stats = series.length >= 30 ? computeVolatility(series) : null;
     if (!stats) {
       notices.push(`${listing.symbol}: 1년 일봉 데이터를 가져오지 못해 변동성 계산에서 제외했습니다.`);
       continue;
@@ -289,6 +331,8 @@ async function collectLive(notices: string[], sources: string[]) {
 
     candidates.push({
       profile,
+      vol90dPct: windowedVolatility(series, 90),
+      vol180dPct: windowedVolatility(series, 180),
       market: {
         symbol: listing.symbol,
         cmcRank: listing.cmcRank,
@@ -312,20 +356,36 @@ async function collectLive(notices: string[], sources: string[]) {
     });
   }
 
-  return { candidates, usdKrw, asOf: new Date().toISOString() };
+  const krMarketSizes: Partial<Record<DomesticExchange, number>> = {};
+  for (const exchange of DOMESTIC_EXCHANGES) krMarketSizes[exchange] = domestic[exchange].size;
+
+  return { candidates, usdKrw, asOf: new Date().toISOString(), krMarketSizes };
 }
 
 /** fixture 모드: 저장된 스냅샷으로 동일한 파이프라인을 태운다. */
-function collectFixture(notices: string[], sources: string[]) {
+function collectFixture(notices: string[], sources: ReportSource[]) {
   notices.push(
+    "fixture 모드에는 일봉 시계열이 없어 GTF 90D·180D 연환산 변동성은 산출되지 않습니다. live 모드에서만 표기됩니다.",
     "CertiK Skynet 보안 점수와 쟁글(Xangle) 공시 현황은 fixture 모드에서 조회되지 않습니다. live 모드에서 각 API 키를 설정해야 반영됩니다.",
     "이 리포트는 오프라인 스냅샷(fixture) 으로 생성되었습니다. 시세·시가총액·변동성 수치는 조사 기반 기준값이며, 발행용 리포트는 반드시 live 모드로 재생성해야 합니다.",
     `국내 거래소 출금 수수료는 ${FEE_TABLE_UPDATED_AT} 기준 수동 관리 테이블 값입니다.`,
   );
   sources.push(
-    "코인마켓캡 공개 시세 자료 (교차 확인)",
-    "국내 5대 거래소 수수료 안내 페이지",
-    "각 프로젝트 공식 홈페이지·백서·SNS 채널",
+    {
+      id: "cmc-snapshot",
+      label: "코인마켓캡 공개 시세 자료",
+      detail: "오프라인 스냅샷으로 교차 확인한 시세·시가총액·유통량 기준값",
+    },
+    {
+      id: "kr-fee-table",
+      label: "국내 5대 거래소 수수료 안내",
+      detail: `업비트·빗썸·코인원·코빗·고팍스 출금 수수료 수동 관리 테이블 (${FEE_TABLE_UPDATED_AT} 기준)`,
+    },
+    {
+      id: "project-docs",
+      label: "각 프로젝트 공식 자료",
+      detail: "재단 홈페이지·백서·SNS 채널 — C/D/E 항목 정성 데이터",
+    },
   );
 
   const profileBySymbol = new Map(COIN_PROFILES.map((p) => [p.symbol, p]));
@@ -347,6 +407,9 @@ function collectFixture(notices: string[], sources: string[]) {
 
     candidates.push({
       profile,
+      // 스냅샷에는 일봉 시계열이 없으므로 구간 변동성은 산출할 수 없다.
+      vol90dPct: null,
+      vol180dPct: null,
       market,
       priceKrw,
       marketCapKrw: priceKrw * market.circulatingSupply,
@@ -365,7 +428,37 @@ function collectFixture(notices: string[], sources: string[]) {
     notices.push(`시세 교차 검증이 완료되지 않은 종목: ${unverified.join(", ")}`);
   }
 
-  return { candidates, usdKrw: SNAPSHOT_USD_KRW, asOf: SNAPSHOT_AS_OF };
+  const krMarketSizes: Partial<Record<DomesticExchange, number>> = {};
+  for (const exchange of DOMESTIC_EXCHANGES) krMarketSizes[exchange] = 0;
+  for (const listed of Object.values(DOMESTIC_LISTING_SNAPSHOT)) {
+    for (const exchange of listed as readonly DomesticExchange[]) {
+      krMarketSizes[exchange] = (krMarketSizes[exchange] ?? 0) + 1;
+    }
+  }
+
+  return { candidates, usdKrw: SNAPSHOT_USD_KRW, asOf: SNAPSHOT_AS_OF, krMarketSizes };
+}
+
+/**
+ * GTF 구간 변동성. 엑셀 산식과 동일하게 일별 로그수익률 `LN(Pₜ / Pₜ₋₁)` 에
+ * 표본 표준편차(STDEV.S)를 적용한 뒤 연환산 계수 √365 를 곱한다.
+ * (24/7 거래되는 디지털자산 기준. 주식이라면 √245 를 쓴다.)
+ *
+ * 최근 `window` 개의 종가만 사용하며, 표본이 모자라면 null 을 돌려준다.
+ */
+export function windowedVolatility(closes: number[], window: number): number | null {
+  if (closes.length < window + 1) return null;
+  const slice = closes.slice(-(window + 1));
+
+  const returns: number[] = [];
+  for (let i = 1; i < slice.length; i += 1) {
+    if (slice[i - 1] > 0 && slice[i] > 0) returns.push(Math.log(slice[i] / slice[i - 1]));
+  }
+  if (returns.length < 2) return null;
+
+  const mean = returns.reduce((a, b) => a + b, 0) / returns.length;
+  const variance = returns.reduce((a, b) => a + (b - mean) ** 2, 0) / (returns.length - 1);
+  return round2(Math.sqrt(variance) * Math.sqrt(365) * 100);
 }
 
 /** 일봉 종가 배열에서 1년 변동률·연율 변동성·최대 낙폭을 계산한다. */
