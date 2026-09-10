@@ -154,6 +154,13 @@ export interface CoinEntry {
 
   /** CertiK Skynet 종합 보안 점수(0~100). 미제공은 null. */
   skynetScore: number | null;
+  /** 쟁글 공시 현황 (2.3 재단 활동 지속성 근거). 미조회 시 null. */
+  xangle: {
+    profileUrl: string | null;
+    disclosureCount: number | null;
+    lastDisclosureAt: string | null;
+    score: number | null;
+  } | null;
 
   /** 산출 점수. */
   scores: {

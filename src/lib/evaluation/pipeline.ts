@@ -24,6 +24,7 @@ import { fetchTopListings, fetchUsdKrw, fetchDailyCloses } from "../providers/co
 import { fetchDomesticListings, fetchWithdrawalFees } from "../providers/domestic";
 import { fetchGlobalListings, listedGlobalExchanges } from "../providers/global";
 import { fetchSkynetScores, isSkynetConfigured } from "../providers/skynet";
+import { fetchXangleProfiles, isXangleConfigured, type XangleProfile } from "../providers/xangle";
 
 /** A 단계에서 남길 후보 수. */
 const STAGE_A_SIZE = 60;
@@ -46,7 +47,8 @@ export interface GenerateOptions {
 
 /** 파이프라인 내부에서 코인 1종에 대해 모아 두는 원시 데이터. */
 interface Candidate {
-  profile: CoinProfile;
+  /** C/D/E 정성 데이터. A단계 후보군에는 프로필 없는 종목도 포함된다. */
+  profile: CoinProfile | null;
   market: MarketSnapshotRow;
   priceKrw: number;
   marketCapKrw: number;
@@ -56,6 +58,7 @@ interface Candidate {
   feeByExchange: Record<DomesticExchange, number | null>;
   medianFeeAmount: number;
   skynetScore: number | null;
+  xangle: XangleProfile | null;
 }
 
 export async function generateReport(options: GenerateOptions): Promise<Report> {
@@ -76,16 +79,35 @@ export async function generateReport(options: GenerateOptions): Promise<Report> 
   const stageA = candidates
     .filter((c) => c.market.cmcRank <= 100)
     .filter((c) => c.globalListings.length >= 2)
-    .filter((c) => c.profile.isStablecoin || c.market.annualizedVolatilityPct <= 120)
+    .filter((c) => isStable(c) || c.market.annualizedVolatilityPct <= 120)
     .sort((a, b) => b.marketCapKrw - a.marketCapKrw)
     .slice(0, STAGE_A_SIZE);
 
   // ── B 단계 ────────────────────────────────────────────────────────────
   // 국내 5대 거래소 중 3곳 이상에 상장된 코인만 남긴다(즉시 원화 환급 요건).
-  const stageB = stageA
-    .filter((c) => c.domesticListingCount >= MIN_DOMESTIC_LISTINGS)
+  const domesticQualified = stageA.filter((c) => c.domesticListingCount >= MIN_DOMESTIC_LISTINGS);
+
+  // C/D/E(재단·백서·SNS) 정성 데이터가 없으면 리포트를 채울 수 없으므로 제외하고,
+  // 제외된 종목은 숨기지 않고 유의사항으로 남긴다.
+  const missingProfile = domesticQualified.filter((c) => c.profile === null);
+  if (missingProfile.length > 0) {
+    notices.push(
+      `국내 상장 요건은 충족하나 재단·백서·SNS 정성 데이터가 없어 최종 선정에서 제외한 종목: ${missingProfile
+        .map((c) => c.market.symbol)
+        .join(", ")}`,
+    );
+  }
+
+  const stageB = domesticQualified
+    .filter((c): c is Candidate & { profile: CoinProfile } => c.profile !== null)
     .sort((a, b) => b.marketCapKrw - a.marketCapKrw)
     .slice(0, STAGE_B_SIZE);
+
+  if (stageA.length < STAGE_A_SIZE) {
+    notices.push(
+      `1차 후보군이 ${stageA.length}종으로 목표치 ${STAGE_A_SIZE}종에 미달했습니다. 시장 스냅샷의 종목 수를 늘려야 합니다.`,
+    );
+  }
 
   if (stageB.length < STAGE_B_SIZE) {
     notices.push(
@@ -175,6 +197,14 @@ export async function generateReport(options: GenerateOptions): Promise<Report> 
         grade: communityGrades[i],
       },
       skynetScore: c.skynetScore,
+      xangle: c.xangle
+        ? {
+            profileUrl: c.xangle.profileUrl,
+            disclosureCount: c.xangle.disclosureCount,
+            lastDisclosureAt: c.xangle.lastDisclosureAt,
+            score: c.xangle.score,
+          }
+        : null,
       scores: {
         usability,
         sustainability,
@@ -221,7 +251,9 @@ async function collectLive(notices: string[], sources: string[]) {
   ]);
 
   const profileBySymbol = new Map(COIN_PROFILES.map((p) => [p.symbol, p]));
-  const symbols = listings.map((l) => l.symbol).filter((s) => profileBySymbol.has(s));
+  // A단계 후보군은 시총 상위 전체를 대상으로 한다. 정성 데이터(C/D/E)가 있는지는
+  // B단계에서 따진다.
+  const symbols = listings.map((l) => l.symbol);
   const feeTable = await fetchWithdrawalFees(symbols);
 
   let skynet = new Map<string, { securityScore: number }>();
@@ -232,10 +264,17 @@ async function collectLive(notices: string[], sources: string[]) {
     notices.push("SKYNET_API_KEY 가 없어 CertiK Skynet 보안 점수는 리포트에서 제외되었습니다.");
   }
 
+  let xangle = new Map<string, XangleProfile>();
+  if (isXangleConfigured()) {
+    sources.push("쟁글(Xangle) 프로젝트 공시 API");
+    xangle = await fetchXangleProfiles(symbols).catch(() => new Map());
+  } else {
+    notices.push("XANGLE_API_KEY 가 없어 쟁글 공시 현황은 리포트에서 제외되었습니다.");
+  }
+
   const candidates: Candidate[] = [];
   for (const listing of listings) {
-    const profile = profileBySymbol.get(listing.symbol);
-    if (!profile) continue;
+    const profile = profileBySymbol.get(listing.symbol) ?? null;
 
     // 1년 변동률·변동성은 일봉 종가로 직접 계산한다.
     const closes = await fetchDailyCloses(listing.cmcId).catch(() => []);
@@ -269,6 +308,7 @@ async function collectLive(notices: string[], sources: string[]) {
       feeByExchange: feeRow,
       medianFeeAmount: median(Object.values(feeRow).filter((v): v is number => v != null)),
       skynetScore: skynet.get(listing.symbol)?.securityScore ?? null,
+      xangle: xangle.get(listing.symbol) ?? null,
     });
   }
 
@@ -278,6 +318,7 @@ async function collectLive(notices: string[], sources: string[]) {
 /** fixture 모드: 저장된 스냅샷으로 동일한 파이프라인을 태운다. */
 function collectFixture(notices: string[], sources: string[]) {
   notices.push(
+    "CertiK Skynet 보안 점수와 쟁글(Xangle) 공시 현황은 fixture 모드에서 조회되지 않습니다. live 모드에서 각 API 키를 설정해야 반영됩니다.",
     "이 리포트는 오프라인 스냅샷(fixture) 으로 생성되었습니다. 시세·시가총액·변동성 수치는 조사 기반 기준값이며, 발행용 리포트는 반드시 live 모드로 재생성해야 합니다.",
     `국내 거래소 출금 수수료는 ${FEE_TABLE_UPDATED_AT} 기준 수동 관리 테이블 값입니다.`,
   );
@@ -291,8 +332,7 @@ function collectFixture(notices: string[], sources: string[]) {
   const candidates: Candidate[] = [];
 
   for (const market of MARKET_SNAPSHOT) {
-    const profile = profileBySymbol.get(market.symbol);
-    if (!profile) continue;
+    const profile = profileBySymbol.get(market.symbol) ?? null;
 
     const priceKrw = market.priceUsd * SNAPSHOT_USD_KRW;
     const domestic = new Set(DOMESTIC_LISTING_SNAPSHOT[market.symbol] ?? []);
@@ -316,6 +356,7 @@ function collectFixture(notices: string[], sources: string[]) {
       feeByExchange: feeRow,
       medianFeeAmount: median(Object.values(feeRow).filter((v): v is number => v != null)),
       skynetScore: null,
+      xangle: null,
     });
   }
 
@@ -362,6 +403,14 @@ function communityActivityIndex(profile: CoinProfile): number {
   // 규모 편차가 크므로 로그 스케일로 합성한다. 참가자 60%, 메시지 40% 가중.
   return Math.log10(members + 1) * 0.6 + Math.log10(messages + 1) * 0.4;
 }
+
+/** 스테이블코인 판정. 프로필이 없으면 스냅샷 심볼로 판정한다. */
+function isStable(c: Candidate): boolean {
+  if (c.profile) return c.profile.isStablecoin;
+  return STABLE_SYMBOLS.has(c.market.symbol);
+}
+
+const STABLE_SYMBOLS = new Set(["USDT", "USDC", "DAI", "FDUSD", "USDE", "PYUSD", "TUSD"]);
 
 function toListingMap(predicate: (exchange: DomesticExchange) => boolean): ListingMap {
   const map = {} as ListingMap;

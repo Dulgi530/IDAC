@@ -18,7 +18,7 @@
 | --- | --- | --- |
 | 2.1 | 가격변동성 (최근 1년) | `pipeline.ts` → `computeVolatility` |
 | 2.2 | 시가총액 및 전체 물량 (시총 100위 이내) | `providers/coinmarketcap.ts` |
-| 2.3 | 재단 유무 및 재단 안정성 | `data/profiles.ts` → `foundation`, `providers/skynet.ts` |
+| 2.3 | 재단 유무 및 재단 안정성 | `data/profiles.ts` → `foundation`, `providers/xangle.ts`(공시 지속성), `providers/skynet.ts`(보안 점수) |
 | 2.4 | 커뮤니티 및 SNS 소통채널 | `data/profiles.ts` → `sns` |
 
 ## 2. 평가 방식
@@ -26,7 +26,8 @@
 | 번호 | 방식 | 구현 |
 | --- | --- | --- |
 | 3.1 | 코인마켓캡 | `providers/coinmarketcap.ts` |
-| 3.2 | CertiK Skynet | `providers/skynet.ts` |
+| 3.2 | 쟁글(Xangle) | `providers/xangle.ts` |
+| 3.3 | CertiK Skynet 등 기타 글로벌 평가 플랫폼 | `providers/skynet.ts` |
 | 4.1~4.4 | 국내 거래소 (업비트·빗썸·코인원·코빗 + 고팍스) | `providers/domestic.ts` |
 | 5.1~5.3 | 해외 거래소 (바이낸스·코인베이스·OKX·바이비트·크라켄) | `providers/global.ts` |
 
@@ -39,10 +40,17 @@
 - 연율 변동성 120% 이하
 - **스테이블코인은 변동성 조건을 적용하지 않고 규모(2.2) 조건만 적용**
 
+A단계 후보군에는 정성 데이터(재단·백서·SNS)가 없는 종목도 포함된다. 이 단계의
+판정 기준은 수수료·변동성·규모뿐이기 때문이다. 정성 데이터는 B단계에서 요구한다.
+
 ### B. 최종 30종
 
 - 국내 5대 거래소 중 **3곳 이상** 상장 (원화 즉시 환급 요건)
+- C·D·E 항목을 채울 정성 데이터 보유
 - 시가총액 상위 30종
+
+상장 요건은 충족했으나 정성 데이터가 없어 제외된 종목은 리포트 `notices` 에
+심볼과 함께 기록된다. 조용히 빠지지 않도록 한 것이다.
 
 각 코인에 다음을 부가한다.
 

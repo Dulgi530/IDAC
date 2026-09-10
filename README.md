@@ -8,7 +8,7 @@
 
 | 요구사항 | 구현 |
 | --- | --- |
-| 코인마켓캡 + CertiK Skynet 데이터 집계 API | `GET /api/market/aggregate` |
+| 코인마켓캡 + 쟁글 + CertiK Skynet 데이터 집계 API | `GET /api/market/aggregate` |
 | 국내 5대 거래소 온체인 송금 수수료 API | `GET /api/fees?symbols=BTC,ETH` |
 | PDF · 엑셀 다운로드 | `GET /api/reports/{period}/export/pdf` · `.../export/xlsx` |
 | ADMIN / 퍼블릭 도메인 분리 | 관리자 도메인에서만 리포트 생성, 퍼블릭은 조회 전용 |
@@ -53,6 +53,7 @@ npm run page:build -- 2026-09 out/idac-2026-09.html
 | --- | --- |
 | `IDAC_DATA_SOURCE` | `live`(실 API) 또는 `fixture`(오프라인 스냅샷). 기본 `fixture` |
 | `COINMARKETCAP_API_KEY` | 코인마켓캡 Pro API 키. `live` 모드 필수 |
+| `XANGLE_API_KEY` | 쟁글 파트너 키. 없으면 공시 현황 항목이 제외된다 |
 | `SKYNET_API_KEY` | CertiK Skynet 파트너 키. 없으면 보안 점수 항목이 제외된다 |
 | `ADMIN_HOST` | 관리자 도메인 (예: `admin.idac.example.com`) |
 | `ADMIN_TOKEN` | 리포트 생성 API 토큰. 미설정 시 생성 기능이 잠긴다 |
@@ -74,6 +75,7 @@ npm run page:build -- 2026-09 out/idac-2026-09.html
 | --- | --- | --- |
 | 시세·시가총액·유통량 | 코인마켓캡 Pro API | 실시간 |
 | 1년 변동률·변동성·최대낙폭 | 코인마켓캡 일봉 OHLCV | 실시간 계산 |
+| 재단 공시 현황 | 쟁글(Xangle) | 파트너 키 필요 |
 | 보안 점수 | CertiK Skynet | 파트너 키 필요 |
 | 국내 상장 여부 | 업비트·빗썸·코인원·코빗·고팍스 | 공개 API |
 | 출금 수수료 | 코인원·코빗·고팍스 | 공개 API |
@@ -89,7 +91,9 @@ npm run page:build -- 2026-09 out/idac-2026-09.html
 ```
 A단계  시총 100위 이내 + 글로벌 2개 이상 거래소 상장 + 변동성 조건 → 후보 60종
        (스테이블코인은 규모 조건만 적용)
-B단계  국내 5대 거래소 중 3곳 이상 상장 → 최종 30종
+B단계  국내 5대 거래소 중 3곳 이상 상장 + 정성 데이터 보유 → 최종 30종
+       (상장 요건은 채웠으나 재단·백서·SNS 데이터가 없는 종목은 제외하고
+        그 사실을 리포트 유의사항에 남긴다)
 등급   선정 30종 내 상대평가 5분위 (상위 20% = A)
 점수   활용성 = 국내상장 40 + 이체수수료 35 + 활용분야 25
        지속성 = 가격변동성 35 + 시가총액 25 + 재단 20 + 커뮤니티 20

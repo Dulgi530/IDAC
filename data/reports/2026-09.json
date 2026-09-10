@@ -2,11 +2,11 @@
   "period": "2026-09",
   "title": "2026년 9월 디지털자산 활용성·지속가능성 평가 리포트",
   "asOf": "2026-09-09T00:00:00.000Z",
-  "generatedAt": "2026-09-09T04:52:29.660Z",
+  "generatedAt": "2026-09-10T01:26:56.732Z",
   "dataSource": "fixture",
   "usdKrw": 1342,
   "universe": {
-    "stageA": 30,
+    "stageA": 60,
     "stageB": 30
   },
   "entries": [
@@ -97,6 +97,7 @@
         "grade": "B"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 95,
         "sustainability": 86.45,
@@ -192,6 +193,7 @@
         "grade": "A"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 96.32,
         "sustainability": 91.55,
@@ -282,6 +284,7 @@
         "grade": "D"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 96.4,
         "sustainability": 89.6,
@@ -372,6 +375,7 @@
         "grade": "D"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 96.9,
         "sustainability": 85.4,
@@ -467,6 +471,7 @@
         "grade": "A"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 75.88,
         "sustainability": 99,
@@ -562,6 +567,7 @@
         "grade": "A"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 63,
         "sustainability": 97.6,
@@ -657,6 +663,7 @@
         "grade": "D"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 94.75,
         "sustainability": 79.6,
@@ -752,6 +759,7 @@
         "grade": "B"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 94,
         "sustainability": 82.05,
@@ -847,6 +855,7 @@
         "grade": "D"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 90.5,
         "sustainability": 78.25,
@@ -942,6 +951,7 @@
         "grade": "A"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 96.88,
         "sustainability": 86.9,
@@ -1037,6 +1047,7 @@
         "grade": "E"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 87.25,
         "sustainability": 73.45,
@@ -1132,6 +1143,7 @@
         "grade": "A"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 94.5,
         "sustainability": 78.5,
@@ -1227,6 +1239,7 @@
         "grade": "B"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 92.26,
         "sustainability": 79.45,
@@ -1322,6 +1335,7 @@
         "grade": "C"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 83.75,
         "sustainability": 71.2,
@@ -1417,6 +1431,7 @@
         "grade": "B"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 92.96,
         "sustainability": 79.75,
@@ -1512,6 +1527,7 @@
         "grade": "D"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 95,
         "sustainability": 64.05,
@@ -1607,6 +1623,7 @@
         "grade": "B"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 96.25,
         "sustainability": 71.25,
@@ -1702,6 +1719,7 @@
         "grade": "B"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 95.5,
         "sustainability": 70.35,
@@ -1797,6 +1815,7 @@
         "grade": "E"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 87,
         "sustainability": 62.3,
@@ -1887,6 +1906,7 @@
         "grade": "A"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 87.89,
         "sustainability": 66.85,
@@ -1982,6 +2002,7 @@
         "grade": "E"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 85,
         "sustainability": 59.7,
@@ -2077,6 +2098,7 @@
         "grade": "C"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 86,
         "sustainability": 63.4,
@@ -2172,6 +2194,7 @@
         "grade": "D"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 85.5,
         "sustainability": 54.55,
@@ -2267,6 +2290,7 @@
         "grade": "C"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 85.75,
         "sustainability": 61.1,
@@ -2357,6 +2381,7 @@
         "grade": "C"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 87,
         "sustainability": 54.2,
@@ -2452,6 +2477,7 @@
         "grade": "C"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 87.75,
         "sustainability": 58.65,
@@ -2541,6 +2567,7 @@
         "grade": "E"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 84.49,
         "sustainability": 52.25,
@@ -2630,6 +2657,7 @@
         "grade": "C"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 81.17,
         "sustainability": 49.6,
@@ -2724,6 +2752,7 @@
         "grade": "E"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 75.46,
         "sustainability": 44.4,
@@ -2819,6 +2848,7 @@
         "grade": "E"
       },
       "skynetScore": null,
+      "xangle": null,
       "scores": {
         "usability": 79.43,
         "sustainability": 57,
@@ -2834,8 +2864,9 @@
     "각 프로젝트 공식 홈페이지·백서·SNS 채널"
   ],
   "notices": [
+    "CertiK Skynet 보안 점수와 쟁글(Xangle) 공시 현황은 fixture 모드에서 조회되지 않습니다. live 모드에서 각 API 키를 설정해야 반영됩니다.",
     "이 리포트는 오프라인 스냅샷(fixture) 으로 생성되었습니다. 시세·시가총액·변동성 수치는 조사 기반 기준값이며, 발행용 리포트는 반드시 live 모드로 재생성해야 합니다.",
     "국내 거래소 출금 수수료는 2026-09-01 기준 수동 관리 테이블 값입니다.",
-    "시세 교차 검증이 완료되지 않은 종목: DOGE, LINK, BCH, LTC, HBAR, SUI, DOT, UNI, AAVE, NEAR, APT, ETC, POL, ARB, ATOM, ALGO, STX, OP, IMX, SAND"
+    "시세 교차 검증이 완료되지 않은 종목: DOGE, LINK, BCH, LTC, HBAR, SUI, DOT, UNI, AAVE, NEAR, APT, ETC, POL, ARB, ATOM, ALGO, STX, OP, IMX, SAND, BNB, STETH, TON, WBTC, LEO, HYPE, WBETH, USDE, BGB, WEETH, OKB, CRO, DAI, MNT, TAO, ICP, KAS, XMR, FDUSD, PI, FIL, ONDO, FET, LDO, QNT, THETA, JUP, RUNE, FLOKI, GALA"
   ]
 }
